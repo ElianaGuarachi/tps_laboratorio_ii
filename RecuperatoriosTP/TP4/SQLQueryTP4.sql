@@ -78,15 +78,15 @@ PRECIO float not null,
 )
 GO
 
-insert into productos (codigo, producto, stock, precio) values ('B0011', 'Bidon de 20L retornable', 100, 350);
-insert into productos (codigo, producto, stock, precio) values ('B0022', 'Bidon de 12L retornable', 100, 200);
-insert into productos (codigo, producto, stock, precio) values ('B0033', 'Bidon de 5L no retornable', 100, 120);
-insert into productos (codigo, producto, stock, precio) values ('BA062', 'Botellas de agua x6 2L', 100, 220);
-insert into productos (codigo, producto, stock, precio) values ('BA615', 'Botellas de agua x6 1,5L', 100, 157);
-insert into productos (codigo, producto, stock, precio) values ('BA125', 'Botellas de agua x12 500ml', 100, 134);
-insert into productos (codigo, producto, stock, precio) values ('S0062', 'Soda x6 2L retornable', 297, 451);
-insert into productos (codigo, producto, stock, precio) values ('S0615', 'Soda x6 1,5L retornable', 1, 196);
-insert into productos (codigo, producto, stock, precio) values ('S0125', 'Soda x12 500ml no retornable', 100, 3);
+insert into productos (codigo, producto, stock, precio) values ('B0011', 'Bidon de 20L retornable', 100, 450);
+insert into productos (codigo, producto, stock, precio) values ('B0022', 'Bidon de 12L retornable', 100, 250);
+insert into productos (codigo, producto, stock, precio) values ('B0033', 'Bidon de 5L no retornable', 100, 175);
+insert into productos (codigo, producto, stock, precio) values ('BA062', 'Botellas de agua x6 2L', 100, 300);
+insert into productos (codigo, producto, stock, precio) values ('BA615', 'Botellas de agua x6 1,5L', 100, 250);
+insert into productos (codigo, producto, stock, precio) values ('BA125', 'Botellas de agua x12 500ml', 100, 200);
+insert into productos (codigo, producto, stock, precio) values ('S0062', 'Soda x6 2L retornable', 297, 450);
+insert into productos (codigo, producto, stock, precio) values ('S0615', 'Soda x6 1,5L retornable', 1, 350);
+insert into productos (codigo, producto, stock, precio) values ('S0125', 'Soda x12 500ml no retornable', 100, 300);
 insert into productos (codigo, producto, stock, precio) values ('DI000', 'Dispenser natural', 50, 700);
 insert into productos (codigo, producto, stock, precio) values ('DIFCM', 'Dispenser frio/caliente mediano', 30, 2500);
 insert into productos (codigo, producto, stock, precio) values ('DIFCG', 'Dispenser frio/caliente grande', 30, 4000);
