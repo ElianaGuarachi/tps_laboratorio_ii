@@ -1,7 +1,7 @@
 ﻿
 namespace Formularios
 {
-    partial class FormPedidos
+    partial class FrmPedidos
     {
         /// <summary>
         /// Required designer variable.

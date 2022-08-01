@@ -17,6 +17,10 @@ namespace Formularios
         List<Cliente> clientes;
         Cliente clienteNuevo;
 
+        /// <summary>
+        /// Propiedad que retorna un cliente de la base de datos por el dni
+        /// </summary>
+        /// <exception cref="Exception"></exception>
         public Cliente ClienteNuevo
         {
             get
@@ -35,6 +39,11 @@ namespace Formularios
             this.clientes = clientes;
         }
 
+        /// <summary>
+        /// Metodo que crea un cliente nuevo con la informacion ingresada y verificada
+        /// </summary>
+        /// <returns>Un cliente con su informacion completa, o null si no se realizo la carga</returns>
+        /// <exception cref="ParametrosVaciosException"></exception>
         private Cliente CargarDatos()
         {
             Cliente cliente = null;
@@ -47,7 +56,7 @@ namespace Formularios
 
             if (VerificarDatos(nombre, apellido, dni, telefono, direccion))
             {
-                throw new ParametrosVacios("No puede haber espacios vacios, por favor revise");
+                throw new ParametrosVaciosException("No puede haber espacios vacios, por favor revise");
             }
             else
             {
@@ -55,7 +64,8 @@ namespace Formularios
                 {
                     if (BuscarCliente(numDni))
                     {
-                        MessageBox.Show("Ya existe un cliente registrado con el numero de DNI ingresado", "Atencion", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show("Ya existe un cliente registrado con el numero de DNI ingresado", 
+                            "Atencion", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         LimpiarCasilleros();                                                
                     }
                     else
@@ -68,6 +78,11 @@ namespace Formularios
             return cliente;
         }
 
+        /// <summary>
+        /// Metodo que busca a traves del dni un cliente en la lista de clientes
+        /// </summary>
+        /// <param name="dni">Parametro entero que representa en dni</param>
+        /// <returns>True si el cliente esta en la lista, o false si no esta</returns>
         private bool BuscarCliente(int dni)
         {
             foreach (Cliente item in this.clientes)
@@ -80,6 +95,9 @@ namespace Formularios
             return false;
         }
 
+        /// <summary>
+        /// Metodo que borra la informacion previamente ingresada en los textbox
+        /// </summary>
         private void LimpiarCasilleros()
         {
             txtNombre.Text = "";
@@ -89,11 +107,25 @@ namespace Formularios
             txtTelefono.Text = "";
         }
 
+        /// <summary>
+        /// Evento que cancelara el proceso de creacion de cliente
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnCancelar_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.Cancel;
         }
 
+        /// <summary>
+        /// Metodo que verifica que los datos ingresados no sean nulos o vacios
+        /// </summary>
+        /// <param name="nombre">Parametro de tipo string</param>
+        /// <param name="apellido">Parametro de tipo string</param>
+        /// <param name="dni">Parametro de tipo string</param>
+        /// <param name="telefono">Parametro de tipo string</param>
+        /// <param name="direccion">Parametro de tipo string</param>
+        /// <returns>True si un dato es nulo o vacio. Si todos estan completos devuelve false</returns>
         private bool VerificarDatos(string nombre, string apellido, string dni, string telefono, string direccion)
         {
             if (string.IsNullOrWhiteSpace(nombre) ||
@@ -108,16 +140,17 @@ namespace Formularios
             return false;
         }
 
+        /// <summary>
+        /// Metodo que guarda el cliente nuevo en la base de datos y notifica con un DialogResult.OK
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnAgregar_Click(object sender, EventArgs e)
         {
             try
             {
                 Cliente auxCliente = CargarDatos();
-                if (auxCliente is null)
-                {
-                    throw new Exception("No se realizo la carga del cliente, intente de nuevo");
-                }
-                else
+                if (auxCliente is not null)
                 {
                     this.clienteNuevo = auxCliente;
                     DataBaseCliente.Alta(clienteNuevo);
@@ -125,7 +158,7 @@ namespace Formularios
                     this.DialogResult = DialogResult.OK;
                 }
             }
-            catch (ParametrosVacios ex)
+            catch (ParametrosVaciosException ex)
             {
                 MessageBox.Show(ex.Message);
             }

@@ -15,24 +15,16 @@ namespace Formularios
 {
     public partial class FrmPrincipal : Form
     {
-
-        CancellationTokenSource cancellationTokenSource;
-
         public FrmPrincipal()
         {
             InitializeComponent();
         }
-
-        private void FrmPrincipal_Load(object sender, EventArgs e)
-        {
-                     
-        }                          
-                        
-        private void btnArchivar_Click(object sender, EventArgs e)
-        {            
-            MessageBox.Show("El archivo esta listo para imprimir");
-        }
-
+        
+        /// <summary>
+        /// Evento que controla por DialogResult si se quiere cerrar o no la aplicacion
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void FrmPrincipal_FormClosing(object sender, FormClosingEventArgs e)
         {
             DialogResult respuesta = MessageBox.Show("¿Seguro de querer salir?", "Salir", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
@@ -43,38 +35,58 @@ namespace Formularios
             }
         }
 
+        /// <summary>
+        /// Evento en el cual se controla por DialogResult si se quiere cerrar o no la aplicacion
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnSalir_Click(object sender, EventArgs e)
         {
             this.Close();
         }
 
+        /// <summary>
+        /// Se accede al Formulario de pedidos (FrmPedidos)
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnPedidos_Click(object sender, EventArgs e)
         {
-            FormPedidos realizarPedido = new FormPedidos();
-            DialogResult resultado = realizarPedido.ShowDialog();
-
-            if (resultado == DialogResult.OK)
-            {
-
-            }
-            else
-            {
-                MessageBox.Show("No se realizo ningun pedido");
-            }
+            FrmPedidos realizarPedido = new FrmPedidos();
+            realizarPedido.ShowDialog();            
         }
-
-        
-
+               
+        /// <summary>
+        /// Se accede al Formulario del menu de clientes (FrmMenuCliente)
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnCliente_Click(object sender, EventArgs e)
         {
             FrmMenuCliente menuCliente = new FrmMenuCliente();
-            DialogResult resultado = menuCliente.ShowDialog();
+            menuCliente.ShowDialog();
         }
 
+        /// <summary>
+        /// Se accede al Formulario del menu de vendedores (FrmMenuVendedores)
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnVendedores_Click(object sender, EventArgs e)
         {
             FrmMenuVendedores menuVendedores = new FrmMenuVendedores();
-            DialogResult resultado = menuVendedores.ShowDialog();
+            menuVendedores.ShowDialog();
+        }
+
+        /// <summary>
+        /// Se accede al formulario donde se podra ver todas las ventas y los detalles de los mismos
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnVentas_Click(object sender, EventArgs e)
+        {
+            FrmVentas ventas = new FrmVentas();
+            ventas.ShowDialog();
         }
     }
 }

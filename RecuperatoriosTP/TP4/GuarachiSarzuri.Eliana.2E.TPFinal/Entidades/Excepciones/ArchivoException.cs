@@ -8,6 +8,10 @@ namespace Excepciones
 {
     public class ArchivoException:Exception
     {
+        /// <summary>
+        /// Excepcion que surge cuando no se puede archivar
+        /// </summary>
+        /// <param name="message">Parametro de tipo string</param>
         public ArchivoException(string message) : base(message)
         {
         }

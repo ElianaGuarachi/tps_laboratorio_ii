@@ -23,6 +23,10 @@ namespace Formularios
             cargaRealizada = false;
         }
 
+        /// <summary>
+        /// Busca en la lista de clientes el cliente que es seleccionado en el dataGridView
+        /// </summary>
+        /// <returns>Retorna al cliente o null en el caso que no haya seleccionado a uno</returns>
         private Cliente ObtenerClienteSeleccionado()
         {
             try
@@ -43,6 +47,12 @@ namespace Formularios
             return null;
         }
 
+        /// <summary>
+        /// Se accede al formulario donde se realizara el alta a un cliente, luego de realizar el alta
+        /// incorpora al nuevo cliente en el dataGridView y en la lista de clientes
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnNuevoCliente_Click(object sender, EventArgs e)
         {
             FrmAltaCliente altaCliente = new FrmAltaCliente(this.clientes);
@@ -60,6 +70,11 @@ namespace Formularios
             }
         }
 
+        /// <summary>
+        /// Se accede al formulario que realizara la modificacion en el cliente seleccionado
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnModificarCliente_Click(object sender, EventArgs e)
         {
             try
@@ -86,6 +101,12 @@ namespace Formularios
             }
         }
 
+        /// <summary>
+        /// Elimininara la informacion del cliente seleccionado tanto en la lista de clientes 
+        /// como en la base de datos
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnEliminarCliente_Click(object sender, EventArgs e)
         {
             try
@@ -93,7 +114,7 @@ namespace Formularios
                 Cliente cliente = ObtenerClienteSeleccionado();
                 if (cliente is not null)
                 {
-                    DialogResult respuesta = MessageBox.Show($"Esta seguro que desea eliminar al cliente: " +
+                    DialogResult respuesta = MessageBox.Show($"Esta seguro que desea eliminar al cliente: \n" +
                         $"{cliente.MostrarInformacionParcial()}?", "Alerta", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                     if (respuesta == DialogResult.Yes)
                     {
@@ -116,11 +137,21 @@ namespace Formularios
             }
         }
 
+        /// <summary>
+        /// Cerrara el formulario actual volviendo al anterior
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnSalir_Click(object sender, EventArgs e)
         {
             this.Close();
         }
 
+        /// <summary>
+        /// Obtendra la lista de todos los clientes de la base de datos guardandolos en una lista
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnCargar_Click(object sender, EventArgs e)
         {
             try
@@ -128,12 +159,8 @@ namespace Formularios
                 if (!cargaRealizada)
                 {
                     this.clientes = DataBaseCliente.ObtenerLista();
-                    CompletarDataGridConClienteEncontrado();
-                    btnBuscar.Enabled = true;
-                    btnModificarCliente.Enabled = true;
-                    btnNuevoCliente.Enabled = true;
-                    btnEliminarCliente.Enabled = true;
-                    btnRefrescar.Enabled = true;
+                    CompletarDataGridConListaDeClientes();
+                    HabilitarControles();
                     cargaRealizada = true;
                 }
             }
@@ -143,7 +170,23 @@ namespace Formularios
             }
         }
 
-        private void CompletarDataGridConClienteEncontrado()
+        /// <summary>
+        /// Habilitara los botones restantes del formulario
+        /// </summary>
+        private void HabilitarControles()
+        {
+            btnBuscar.Enabled = true;
+            btnModificarCliente.Enabled = true;
+            btnNuevoCliente.Enabled = true;
+            btnEliminarCliente.Enabled = true;
+            btnRefrescar.Enabled = true;
+            btnImprimir.Enabled = true;
+        }
+
+        /// <summary>
+        /// Recorrera la lista de clientes para completar el dataGridView
+        /// </summary>
+        private void CompletarDataGridConListaDeClientes()
         {
             foreach (Cliente item in this.clientes)
             {
@@ -154,6 +197,10 @@ namespace Formularios
             }            
         }
 
+        /// <summary>
+        /// Agrega una celda al dataGridView con la informacion de un cliente
+        /// </summary>
+        /// <param name="cliente">Parametro de tipo cliente</param>
         private void AgregarCelda(Cliente cliente)
         {
             DataGridViewRow registroCliente = new DataGridViewRow();
@@ -167,6 +214,12 @@ namespace Formularios
             dgvClientes.Rows.Add(registroCliente);
         }
 
+        /// <summary>
+        /// Buscara en la base de datos la informacion del cliente a traves del DNI ingresado, 
+        /// o notificara que no existe el mismo
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnBuscar_Click(object sender, EventArgs e)
         {
             try
@@ -192,10 +245,44 @@ namespace Formularios
             }            
         }
 
+        /// <summary>
+        /// Limpia el dataGridView y completa con nueva informacion
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnRefrescar_Click(object sender, EventArgs e)
         {
             dgvClientes.Rows.Clear();
-            CompletarDataGridConClienteEncontrado();
+            CompletarDataGridConListaDeClientes();
+        }
+
+        /// <summary>
+        /// Se crea una carpeta en el escritorio con la informacion de los clientes
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnImprimir_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                StringBuilder sb = new StringBuilder();
+                if (this.clientes is not null)
+                {
+                    foreach (Cliente item in this.clientes)
+                    {
+                        sb.AppendLine(item.MostrarDatosCompletos());
+                    }
+                    FileManager.GuardarArchivosGenericos(sb.ToString(), "ListaDeCliente.txt");
+                    FileManager.GuardarArchivosGenericos(clientes, "ListaDeCliente.xml");
+                    FileManager.GuardarArchivosGenericos(clientes, "ListaDeCliente.json");
+                    MessageBox.Show("El archivo se encuentra listo para imprimir");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
         }
     }
 }

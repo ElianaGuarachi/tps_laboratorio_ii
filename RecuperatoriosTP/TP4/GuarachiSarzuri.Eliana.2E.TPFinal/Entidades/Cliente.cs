@@ -15,7 +15,7 @@ namespace Entidades
             {
                 if (string.IsNullOrWhiteSpace(value))
                 {
-                    throw new ParametrosVacios("No puede dejar el espacio vacio");
+                    throw new ParametrosVaciosException("No puede dejar el espacio vacio");
                 }
                 this.telefono = value;
             }
@@ -28,12 +28,16 @@ namespace Entidades
             {
                 if (string.IsNullOrWhiteSpace(value))
                 {
-                    throw new ParametrosVacios("No puede dejar el espacio vacio");
+                    throw new ParametrosVaciosException("No puede dejar el espacio vacio");
                 }
                 this.direccion = value;
             }
         }
 
+        public Cliente()
+        {
+
+        }
         
         public Cliente(int dni, string nombre, string apellido, string telefono, string direccion)
             : base(nombre, apellido, dni)
@@ -48,32 +52,23 @@ namespace Entidades
             this.Id = id;
         }
 
-        public static bool operator ==(Cliente c1, Cliente c2)
-        {
-            bool retorno = false;
-            if (c1 is not null && c2 is not null)
-            {
-                if (c1.Dni == c2.Dni)
-                {
-                    retorno = true;
-                }
-            }
-            return retorno;
-        }
-
-        public static bool operator != (Cliente c1, Cliente c2)
-        {
-            return !(c1 == c2);
-        }
-
+        /// <summary>
+        /// Metodo de interfaz que permite mostrar toda la informacion de un cliente
+        /// </summary>
+        /// <returns>Un string con la informacion</returns>
         public string MostrarDatosCompletos()
         {
-            return $"DNI: {Dni} - {Apellido}, {Nombre} - Dir: {Direccion} - Tel: {Telefono}";
+            return $"Id: {Id} \t DNI: {Dni} \t {Apellido}, {Nombre} \t Dir: {Direccion} \t Tel: {Telefono}";
         }
 
+        /// <summary>
+        /// Metodo de interfaz que muestra el DNI y nombre completo del cliente
+        /// </summary>
+        /// <returns>Un string con la informacion</returns>
         public string MostrarInformacionParcial()
         {
             return $"DNI: {Dni} - {Apellido}, {Nombre}";
         }
+                
     }
 }

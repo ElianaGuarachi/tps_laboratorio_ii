@@ -8,23 +8,32 @@ using Excepciones;
 using System.Xml.Serialization;
 using System.Xml;
 using System.Text.Json;
+using Entidades.Excepciones;
 
 namespace Entidades
 {
-    public static class Serializadora
-    {
-        private static string rutaBase;
+    public static class FileManager
+    {         
+        private static string path;
 
-        static Serializadora()
+        static FileManager()
         {
-            Serializadora.rutaBase = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "Sistema de ventas");
+            FileManager.ValidaExistenciaDeDirectorio();
         }
 
+        /// <summary>
+        /// Metodo generico que se encargara de seriazar o guardar un archivo
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="elemento">Parametro generico de tipo clase</param>
+        /// <param name="nombreArchivo">Parametro de tipo string</param>
+        /// <exception cref="ArchivoException">Cuando el formato del archivo es incorrecto</exception>
         public static void GuardarArchivosGenericos<T>(T elemento, string nombreArchivo)
             where T: class
         {
-            using (StreamWriter writer = new StreamWriter($"{Serializadora.rutaBase}\\{nombreArchivo}"))
-            {              
+            using (StreamWriter writer = new StreamWriter(Path.Combine(path,nombreArchivo)))
+            {
                 switch (Path.GetExtension(nombreArchivo))
                 {
                     case ".json":
@@ -45,15 +54,21 @@ namespace Entidades
             }
         }
 
+        /// <summary>
+        /// Metodo generico que deserializara archivho json o xml
+        /// </summary>
+        /// <typeparam name="T">Parametro generico de tipo clase</typeparam>
+        /// <param name="nombreArchivo">Parametro de tipo string</param>
+        /// <returns></returns>
         public static T DeserializarArchivosGenericos<T>(string nombreArchivo)
             where T: class
         {
-            using (StreamReader streamReader = new StreamReader($"{Serializadora.rutaBase}\\{nombreArchivo}"))
+            using (StreamReader streamReader = new StreamReader(Path.Combine(path, nombreArchivo)))
             {
                 switch (Path.GetExtension(nombreArchivo))
                 {
                     case ".json":
-                        string objetoJson = File.ReadAllText(nombreArchivo);
+                        string objetoJson = File.ReadAllText(Path.Combine(path, nombreArchivo));
                         T objeto = JsonSerializer.Deserialize<T>(objetoJson);
                         return objeto;
 
@@ -65,6 +80,26 @@ namespace Entidades
                     default:
                         throw new ArchivoException("Extension no permitida");
                 }
+            }
+        }
+
+        /// <summary>
+        /// Metodo que evalua si un directorio existe, si no existe lo crea
+        /// </summary>
+        private static void ValidaExistenciaDeDirectorio()
+        {
+            bool resultado = Directory.Exists(path);
+            if (resultado == false)
+            {
+                try
+                {
+                    Directory.CreateDirectory(path);
+                }
+                catch (Exception ex)
+                {
+                    throw new FileSerializerException("Error al crear el directorio", ex);
+                }
+
             }
         }
 

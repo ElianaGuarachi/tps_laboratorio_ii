@@ -17,7 +17,7 @@ namespace Formularios
     {
         List<Vendedor> vendedores;
         Vendedor vendedorSeleccionado = null;
-        Vendedor nuevoVendedor = null;
+        Vendedor vendedorNuevo = null;
         bool cargaRealizada;
 
         public FrmMenuVendedores()
@@ -27,19 +27,25 @@ namespace Formularios
             cargaRealizada = false;
         }
 
+        /// <summary>
+        /// Evento click que obtiene la lista de los vendedores de la base de datos,
+        /// habilita el resto de los controladores y manda a completar el dataGridView
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnCargar_Click(object sender, EventArgs e)
         {
             try
             {
                 if (!cargaRealizada)
                 {
-                    vendedores = DataBaseVendedor.ObtenerLista();
-                    CompletarDataGridVendedores();
+                    this.vendedores = DataBaseVendedor.ObtenerLista();
+                    CompletarDataGridVendedores(this.vendedores);
                     btnNuevoVendedor.Enabled = true;
-                    btnModificarVendedor.Enabled = true;
-                    btnEliminarVendedor.Enabled = true; 
+                    btnBajaVendedor.Enabled = true;
+                    btnEliminarVendedor.Enabled = true;
+                    btnImprimir.Enabled = true;
                     cargaRealizada = true;
-                    txtSueldo.Enabled = true;
                 }                
             }
             catch (Exception ex)
@@ -48,6 +54,10 @@ namespace Formularios
             }
         }
 
+        /// <summary>
+        /// Metodo que instancia una fila del dataGridView completando con la informacion de un vendedor
+        /// </summary>
+        /// <param name="vendedor">Parametro de tipo Vendedor</param>
         private void AgregarCeldaDataGrid(Vendedor vendedor)
         {
             DataGridViewRow registroVendedor = new DataGridViewRow();
@@ -57,149 +67,73 @@ namespace Formularios
             registroVendedor.Cells[2].Value = vendedor.Nombre;
             registroVendedor.Cells[3].Value = vendedor.Apellido;
             registroVendedor.Cells[4].Value = vendedor.Sueldo;
+            registroVendedor.Cells[5].Value = vendedor.FechaAlta;
+            registroVendedor.Cells[6].Value = vendedor.FechaBaja;
             dgvVendedores.Rows.Add(registroVendedor);
         }
 
-        private void CompletarDataGridVendedores()
+        /// <summary>
+        /// Metodo que recorre la lista de vendedores y agrega a cada uno al DataGridView
+        /// </summary>
+        /// <param name="vendedores"></param>
+        private void CompletarDataGridVendedores(List<Vendedor> vendedores)
         {
-            if (this.vendedores is not null)
+            if (vendedores is not null)
             {
-                foreach (Vendedor item in this.vendedores)
+                foreach (Vendedor item in vendedores)
                 {
                     AgregarCeldaDataGrid(item);
                 }
             }
         }
 
+        /// <summary>
+        /// Cancela el formulario y lo cierra
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnSalir_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.Cancel;
         }
 
-        private bool CasillerosVacios(string dni, string nombre, string apellido, string sueldo)
-        {
-            if (string.IsNullOrWhiteSpace(dni) ||
-                    string.IsNullOrWhiteSpace(nombre) ||
-                    string.IsNullOrWhiteSpace(apellido) ||
-                    string.IsNullOrWhiteSpace(sueldo))
-            {
-                return true;
-            }
-            return false;
-        }
-
+        /// <summary>
+        /// Abre el formulario de alta, si la respuesta del formulario es OK, se incorpora al nuevo vendedor
+        /// tanto a la lista del sistema como a la base de datos
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnNuevoVendedor_Click(object sender, EventArgs e)
         {
             try
             {
-                string dni = txtDni.Text;
-                string nombre = txtNombre.Text;
-                string apellido = txtApellido.Text;
-                string sueldo = txtSueldo.Text;
+                FrmAltaVendedor altaVendedor = new FrmAltaVendedor(this.vendedores);
+                DialogResult respuesta = altaVendedor.ShowDialog();
 
-                if (!CasillerosVacios(dni,nombre,apellido,sueldo) &&
-                    int.TryParse(dni, out int dniAux) && 
-                    double.TryParse(sueldo, out double sueldoAux))
+                if (respuesta == DialogResult.OK)
                 {
-                    if (VerificarDniExistente(dniAux))
-                    {
-                        MessageBox.Show("El vendedor con el dni ingresado ya existe");
-                    }
-                    else
-                    {
-                        nuevoVendedor = new Vendedor(dniAux, nombre, apellido, sueldoAux);
-                        DataBaseVendedor.Alta(nuevoVendedor);
-                        nuevoVendedor = DataBaseVendedor.ObtenerVendedorPorDni(dniAux);
-                        vendedores.Add(nuevoVendedor);
-                        AgregarCeldaDataGrid(nuevoVendedor);
-                    }
+                    vendedorNuevo = altaVendedor.VendedorNuevo;
+                    vendedores.Add(vendedorNuevo);
+                    AgregarCeldaDataGrid(vendedorNuevo);
                 }
                 else
                 {
-                    throw new ParametrosVacios("Los casilleros deben estar completos");
+                    MessageBox.Show("No se registro ningun vendedor nuevo");
                 }
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
-        }
+        }       
 
-        private bool VerificarDniExistente(int dni)
-        {
-            foreach (Vendedor item in this.vendedores)
-            {
-                if (item.Dni == dni)
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        private void HabitarTextBox()
-        {
-            txtDni.Enabled = true;
-            txtNombre.Enabled = true;
-            txtApellido.Enabled = true;
-            txtSueldo.Enabled = true;
-        }
-
-        private void LimpiarTextBox()
-        {
-            txtId.Text = "";
-            txtDni.Text = "";
-            txtNombre.Text = "";
-            txtApellido.Text = "";
-            txtSueldo.Text = "";
-        }
-
-        private void btnModificarVendedor_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                if (txtId.Text != string.Empty)
-                {
-                    string sueldoAux = txtSueldo.Text;
-                    if (double.TryParse(sueldoAux, out double sueldo))
-                    {
-                        this.vendedorSeleccionado.Sueldo = sueldo;
-                        DataBaseVendedor.Modificar(this.vendedorSeleccionado);
-                        this.vendedores = DataBaseVendedor.ObtenerLista();
-                        dgvVendedores.Rows.Clear();
-                        CompletarDataGridVendedores();
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
-
-        private void btnEliminarVendedor_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                if (txtId.Text != string.Empty)
-                {
-                    DataBaseVendedor.Eliminar(this.vendedorSeleccionado);
-                    dgvVendedores.Rows.Remove(dgvVendedores.CurrentRow);
-                    if (this.vendedores.Remove(this.vendedorSeleccionado))
-                    {
-                        MessageBox.Show("El vendedor ha sido eliminado");
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
-
+        /// <summary>
+        /// Metodo que busca en  la lista de vendedores, el vendedor que esta siendo seleccionado en el DataGridView
+        /// </summary>
+        /// <returns>El vendedor seleccionado, o null si no se selecciona a nadie del dataGridView</returns>
         private Vendedor ObtenerVendedorSeleccionado()
         {
-            if (cargaRealizada)
+            try
             {
                 int dniVendedor = (int)dgvVendedores.CurrentRow.Cells[1].Value;
                 foreach (Vendedor item in this.vendedores)
@@ -210,39 +144,111 @@ namespace Formularios
                     }
                 }
             }
-            return null;
-        }
-
-        private void InformacionVendedorSeleccionado()
-        {
-            try
-            {
-                Vendedor vendedor = ObtenerVendedorSeleccionado();
-                if (vendedor is not null)
-                {
-                    vendedorSeleccionado = vendedor;
-                    txtId.Text = vendedor.Id.ToString();
-                    txtDni.Text = vendedor.Dni.ToString();
-                    txtNombre.Text = vendedor.Nombre;
-                    txtApellido.Text = vendedor.Apellido;
-                    txtSueldo.Text = vendedor.Sueldo.ToString();
-                }
-            }
             catch (Exception)
             {
                 MessageBox.Show("Debe seleccionar un vendedor de la lista");
-            }            
+            }
+            return null;
         }
 
-        private void dgvVendedores_CellClick(object sender, DataGridViewCellEventArgs e)
+        /// <summary>
+        /// Gusrda la informacion de la lista de clientes en tres archivos con diferentes formatos
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnImprimir_Click(object sender, EventArgs e)
         {
-            InformacionVendedorSeleccionado();
+            try
+            {
+                StringBuilder sb = new StringBuilder();
+                if (this.vendedores is not null)
+                {
+                    foreach (Vendedor item in this.vendedores)
+                    {
+                        sb.AppendLine(item.MostrarDatosCompletos());
+                    }
+                    FileManager.GuardarArchivosGenericos(sb.ToString(), "ListaDeVendedores.txt");
+                    FileManager.GuardarArchivosGenericos(vendedores, "ListaDeVendedores.xml");
+                    FileManager.GuardarArchivosGenericos(vendedores, "ListaDeVendedores.json");
+                    MessageBox.Show("El archivo se encuentra listo para imprimir");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
-        private void btnLimpiar_Click(object sender, EventArgs e)
+        /// <summary>
+        /// Al vendedor seleccionado lo da de baja sumando la fecha, guardando la informacion en la lista
+        /// de vendedores y en la base de datos.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnBajaVendedor_Click(object sender, EventArgs e)
         {
-            LimpiarTextBox();
-            HabitarTextBox();
+            try
+            {
+                this.vendedorSeleccionado = ObtenerVendedorSeleccionado();
+                if (this.vendedorSeleccionado is not null && this.vendedorSeleccionado.EsActivo)
+                {
+                    this.vendedorSeleccionado.EsActivo = false;
+                    this.vendedorSeleccionado.FechaBaja = DateTime.Today.ToShortDateString();
+                    DataBaseVendedor.DarDeBaja(this.vendedorSeleccionado);
+                    int index = vendedores.IndexOf(vendedorSeleccionado);
+                    vendedores[index] = vendedorSeleccionado;
+                    dgvVendedores.Rows.Clear();
+                    CompletarDataGridVendedores(this.vendedores);
+                }
+                else
+                {
+                    MessageBox.Show("Debe seleccionar un vendedor");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Si el vendedor seleccionado fue dado de baja previamente, se lo podra eliminar de la base de datos y la lista
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnEliminarVendedor_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                this.vendedorSeleccionado = ObtenerVendedorSeleccionado();
+                if (vendedorSeleccionado is not null)
+                {
+                    if (!vendedorSeleccionado.EsActivo)
+                    {
+                        DialogResult respuesta = MessageBox.Show($"Esta seguro/a que desea eliminar al vendedor/a: \n" +
+                        $"{this.vendedorSeleccionado.MostrarInformacionParcial()}", "Alerta", MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Warning);
+                        if (respuesta == DialogResult.Yes)
+                        {
+                            DataBaseVendedor.Eliminar(this.vendedorSeleccionado);
+                            dgvVendedores.Rows.Remove(dgvVendedores.CurrentRow);
+                            if (this.vendedores.Remove(this.vendedorSeleccionado))
+                            {
+                                MessageBox.Show("El vendedor ha sido eliminado");
+
+                            }
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Para eliminar al vendedor debe darlo de baja primero");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }

@@ -1,0 +1,102 @@
+[
+  {
+    "Sueldo": 87000.25,
+    "EsActivo": true,
+    "FechaAlta": "2010-06-12",
+    "FechaBaja": "",
+    "Id": 1,
+    "Dni": 39369123,
+    "Nombre": "Eliana",
+    "Apellido": "Rodriguez"
+  },
+  {
+    "Sueldo": 92000.25,
+    "EsActivo": true,
+    "FechaAlta": "2015-04-04",
+    "FechaBaja": "",
+    "Id": 2,
+    "Dni": 46953271,
+    "Nombre": "Emanuel",
+    "Apellido": "Vera"
+  },
+  {
+    "Sueldo": 85000.1,
+    "EsActivo": true,
+    "FechaAlta": "2019-03-06",
+    "FechaBaja": "",
+    "Id": 3,
+    "Dni": 38195632,
+    "Nombre": "Cesar",
+    "Apellido": "Alvarez"
+  },
+  {
+    "Sueldo": 88000.5,
+    "EsActivo": true,
+    "FechaAlta": "2014-01-10",
+    "FechaBaja": "",
+    "Id": 4,
+    "Dni": 36913342,
+    "Nombre": "Cristina",
+    "Apellido": "Castro"
+  },
+  {
+    "Sueldo": 95000.63,
+    "EsActivo": true,
+    "FechaAlta": "2015-03-25",
+    "FechaBaja": "",
+    "Id": 5,
+    "Dni": 42210997,
+    "Nombre": "Daniela",
+    "Apellido": "Pastorutti"
+  },
+  {
+    "Sueldo": 83500.65,
+    "EsActivo": true,
+    "FechaAlta": "2018-06-28",
+    "FechaBaja": "",
+    "Id": 6,
+    "Dni": 37221830,
+    "Nombre": "Soledad",
+    "Apellido": "Sanchez"
+  },
+  {
+    "Sueldo": 73500.85,
+    "EsActivo": true,
+    "FechaAlta": "2017-06-09",
+    "FechaBaja": "",
+    "Id": 7,
+    "Dni": 27300252,
+    "Nombre": "Cristian",
+    "Apellido": "Gonzalez"
+  },
+  {
+    "Sueldo": 78900.75,
+    "EsActivo": true,
+    "FechaAlta": "2016-04-21",
+    "FechaBaja": "",
+    "Id": 8,
+    "Dni": 38887125,
+    "Nombre": "Pedro",
+    "Apellido": "Dorrego"
+  },
+  {
+    "Sueldo": 83000.15,
+    "EsActivo": true,
+    "FechaAlta": "2017-08-19",
+    "FechaBaja": "",
+    "Id": 9,
+    "Dni": 39244120,
+    "Nombre": "Juan",
+    "Apellido": "De Ambrosi"
+  },
+  {
+    "Sueldo": 89300.45,
+    "EsActivo": true,
+    "FechaAlta": "2020-09-18",
+    "FechaBaja": "",
+    "Id": 10,
+    "Dni": 45411010,
+    "Nombre": "Emiliana",
+    "Apellido": "Romero"
+  }
+]

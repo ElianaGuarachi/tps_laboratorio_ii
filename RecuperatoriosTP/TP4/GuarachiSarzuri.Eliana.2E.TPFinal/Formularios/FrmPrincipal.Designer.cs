@@ -35,11 +35,11 @@ namespace Formularios
             this.lblNombreEmpresa = new System.Windows.Forms.Label();
             this.btnPedidos = new System.Windows.Forms.Button();
             this.imgPrincipal = new System.Windows.Forms.ImageList(this.components);
-            this.btnImprimir = new System.Windows.Forms.Button();
             this.btnSalir = new System.Windows.Forms.Button();
             this.btnCliente = new System.Windows.Forms.Button();
             this.btnVendedores = new System.Windows.Forms.Button();
             this.picture = new System.Windows.Forms.PictureBox();
+            this.btnVentas = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.picture)).BeginInit();
             this.SuspendLayout();
             // 
@@ -47,7 +47,7 @@ namespace Formularios
             // 
             this.lblTitulo.AutoSize = true;
             this.lblTitulo.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.lblTitulo.Location = new System.Drawing.Point(193, 22);
+            this.lblTitulo.Location = new System.Drawing.Point(152, 23);
             this.lblTitulo.Name = "lblTitulo";
             this.lblTitulo.Size = new System.Drawing.Size(316, 30);
             this.lblTitulo.TabIndex = 6;
@@ -57,7 +57,7 @@ namespace Formularios
             // 
             this.lblNombreEmpresa.AutoSize = true;
             this.lblNombreEmpresa.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.lblNombreEmpresa.Location = new System.Drawing.Point(282, 61);
+            this.lblNombreEmpresa.Location = new System.Drawing.Point(241, 62);
             this.lblNombreEmpresa.Name = "lblNombreEmpresa";
             this.lblNombreEmpresa.Size = new System.Drawing.Size(119, 32);
             this.lblNombreEmpresa.TabIndex = 5;
@@ -65,10 +65,11 @@ namespace Formularios
             // 
             // btnPedidos
             // 
+            this.btnPedidos.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnPedidos.Font = new System.Drawing.Font("Segoe UI Semibold", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.btnPedidos.ImageIndex = 2;
             this.btnPedidos.ImageList = this.imgPrincipal;
-            this.btnPedidos.Location = new System.Drawing.Point(363, 143);
+            this.btnPedidos.Location = new System.Drawing.Point(315, 138);
             this.btnPedidos.Name = "btnPedidos";
             this.btnPedidos.Size = new System.Drawing.Size(114, 106);
             this.btnPedidos.TabIndex = 3;
@@ -85,27 +86,14 @@ namespace Formularios
             this.imgPrincipal.Images.SetKeyName(0, "clientes.png");
             this.imgPrincipal.Images.SetKeyName(1, "vendedores.png");
             this.imgPrincipal.Images.SetKeyName(2, "Ventas.png");
-            this.imgPrincipal.Images.SetKeyName(3, "imprimir.png");
-            this.imgPrincipal.Images.SetKeyName(4, "agua.png");
-            // 
-            // btnImprimir
-            // 
-            this.btnImprimir.Font = new System.Drawing.Font("Segoe UI Semibold", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.btnImprimir.ImageIndex = 3;
-            this.btnImprimir.ImageList = this.imgPrincipal;
-            this.btnImprimir.Location = new System.Drawing.Point(510, 143);
-            this.btnImprimir.Name = "btnImprimir";
-            this.btnImprimir.Size = new System.Drawing.Size(114, 106);
-            this.btnImprimir.TabIndex = 4;
-            this.btnImprimir.Text = "Imprimir";
-            this.btnImprimir.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.btnImprimir.UseVisualStyleBackColor = true;
-            this.btnImprimir.Click += new System.EventHandler(this.btnArchivar_Click);
+            this.imgPrincipal.Images.SetKeyName(3, "agua.png");
+            this.imgPrincipal.Images.SetKeyName(4, "venta.png");
             // 
             // btnSalir
             // 
+            this.btnSalir.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSalir.Font = new System.Drawing.Font("Segoe UI Semibold", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.btnSalir.Location = new System.Drawing.Point(450, 301);
+            this.btnSalir.Location = new System.Drawing.Point(436, 278);
             this.btnSalir.Name = "btnSalir";
             this.btnSalir.Size = new System.Drawing.Size(140, 40);
             this.btnSalir.TabIndex = 0;
@@ -118,7 +106,7 @@ namespace Formularios
             this.btnCliente.Font = new System.Drawing.Font("Segoe UI Semibold", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.btnCliente.ImageIndex = 0;
             this.btnCliente.ImageList = this.imgPrincipal;
-            this.btnCliente.Location = new System.Drawing.Point(67, 143);
+            this.btnCliente.Location = new System.Drawing.Point(12, 138);
             this.btnCliente.Name = "btnCliente";
             this.btnCliente.Size = new System.Drawing.Size(114, 106);
             this.btnCliente.TabIndex = 1;
@@ -132,7 +120,7 @@ namespace Formularios
             this.btnVendedores.Font = new System.Drawing.Font("Segoe UI Semibold", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.btnVendedores.ImageIndex = 1;
             this.btnVendedores.ImageList = this.imgPrincipal;
-            this.btnVendedores.Location = new System.Drawing.Point(217, 143);
+            this.btnVendedores.Location = new System.Drawing.Point(166, 138);
             this.btnVendedores.Name = "btnVendedores";
             this.btnVendedores.Size = new System.Drawing.Size(114, 106);
             this.btnVendedores.TabIndex = 2;
@@ -145,23 +133,39 @@ namespace Formularios
             // 
             this.picture.Enabled = false;
             this.picture.Image = ((System.Drawing.Image)(resources.GetObject("picture.Image")));
-            this.picture.Location = new System.Drawing.Point(117, 22);
+            this.picture.Location = new System.Drawing.Point(76, 23);
             this.picture.Name = "picture";
             this.picture.Size = new System.Drawing.Size(54, 72);
             this.picture.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.picture.TabIndex = 11;
             this.picture.TabStop = false;
             // 
+            // btnVentas
+            // 
+            this.btnVentas.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnVentas.Font = new System.Drawing.Font("Segoe UI Semibold", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.btnVentas.ImageIndex = 4;
+            this.btnVentas.ImageList = this.imgPrincipal;
+            this.btnVentas.Location = new System.Drawing.Point(462, 138);
+            this.btnVentas.Name = "btnVentas";
+            this.btnVentas.Size = new System.Drawing.Size(114, 106);
+            this.btnVentas.TabIndex = 12;
+            this.btnVentas.Text = "Ventas";
+            this.btnVentas.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnVentas.UseVisualStyleBackColor = true;
+            this.btnVentas.Click += new System.EventHandler(this.btnVentas_Click);
+            // 
             // FrmPrincipal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(656, 359);
+            this.BackColor = System.Drawing.SystemColors.Control;
+            this.ClientSize = new System.Drawing.Size(588, 330);
+            this.Controls.Add(this.btnVentas);
             this.Controls.Add(this.picture);
             this.Controls.Add(this.btnVendedores);
             this.Controls.Add(this.btnCliente);
             this.Controls.Add(this.btnSalir);
-            this.Controls.Add(this.btnImprimir);
             this.Controls.Add(this.btnPedidos);
             this.Controls.Add(this.lblNombreEmpresa);
             this.Controls.Add(this.lblTitulo);
@@ -171,8 +175,8 @@ namespace Formularios
             this.Name = "FrmPrincipal";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "BIENVENIDO/A";
+            this.TransparencyKey = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmPrincipal_FormClosing);
-            this.Load += new System.EventHandler(this.FrmPrincipal_Load);
             ((System.ComponentModel.ISupportInitialize)(this.picture)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -184,12 +188,12 @@ namespace Formularios
         private System.Windows.Forms.Label lblTitulo;
         private System.Windows.Forms.Label lblNombreEmpresa;
         private System.Windows.Forms.Button btnPedidos;
-        private System.Windows.Forms.Button btnImprimir;
         private System.Windows.Forms.Button btnSalir;
         private System.Windows.Forms.Button btnCliente;
         private System.Windows.Forms.Button btnVendedores;
         private System.Windows.Forms.ImageList imgPrincipal;
         private System.Windows.Forms.PictureBox picture;
+        private System.Windows.Forms.Button btnVentas;
     }
 }
 

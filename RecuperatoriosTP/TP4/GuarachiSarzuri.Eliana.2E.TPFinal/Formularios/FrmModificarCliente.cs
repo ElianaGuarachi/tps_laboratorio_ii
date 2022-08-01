@@ -26,6 +26,11 @@ namespace Formularios
             lblCliente.Text = this.cliente.MostrarDatosCompletos();
         }
         
+        /// <summary>
+        /// Evento que evalua si el cbxTelefono fue seleccionado, habilitando el espacio para hacerlo
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void cbxTelefono_CheckedChanged(object sender, EventArgs e)
         {
             if (cbxTelefono.CheckState == CheckState.Checked)
@@ -39,6 +44,11 @@ namespace Formularios
             }
         }
 
+        /// <summary>
+        /// Evento en el que se evalua si el cbxDireccion fue seleccionado, habilitando el espacio para hacerlo
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void cbxModificarDireccion_CheckedChanged(object sender, EventArgs e)
         {
             if (cbxModificarDireccion.CheckState == CheckState.Checked)
@@ -52,6 +62,11 @@ namespace Formularios
             }
         }
 
+        /// <summary>
+        /// Metodo que evalua cuales checkbox han sido seleccionados
+        /// </summary>
+        /// <returns>El enumerado que indica cual o cuales fueron seleccionados</returns>
+        /// <exception cref="Exception"></exception>
         private OpcionesParaModificar VerificarEstadoCheckBox()
         {            
             if (cbxModificarDireccion.CheckState == CheckState.Checked && cbxTelefono.CheckState == CheckState.Checked)
@@ -69,12 +84,22 @@ namespace Formularios
             throw new Exception("Debe seleccionar una opcion para modificar");
         }
 
+        /// <summary>
+        /// Notifica la cancelacion del formulario
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnCancelar_Click(object sender, EventArgs e)
         {
             this.cliente = null;
             this.DialogResult = DialogResult.Cancel;
         }
 
+        /// <summary>
+        /// Se realizara la modificacion a traves de los checkbox elegidos
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnModificar_Click(object sender, EventArgs e)
         {
             try
@@ -84,20 +109,20 @@ namespace Formularios
                     case OpcionesParaModificar.OpcionTelefono:
                         btnGuardar.Enabled = true;
                         cliente.Telefono = txtNuevoTelefono.Text;
-                        lblCliente.Text = cliente.ToString();
+                        lblCliente.Text = cliente.MostrarDatosCompletos();
                         break;
 
                     case OpcionesParaModificar.OpcionDireccion:
                         btnGuardar.Enabled = true;
                         cliente.Direccion = txtNuevaDireccion.Text;
-                        lblCliente.Text = cliente.ToString();
+                        lblCliente.Text = cliente.MostrarDatosCompletos();
                         break;
 
                     case OpcionesParaModificar.Ambos:
                         btnGuardar.Enabled = true;
                         cliente.Telefono = txtNuevoTelefono.Text;
                         cliente.Direccion = txtNuevaDireccion.Text;
-                        lblCliente.Text = cliente.ToString();
+                        lblCliente.Text = cliente.MostrarDatosCompletos();
                         break;
                 }
             }
@@ -107,6 +132,11 @@ namespace Formularios
             }
         }
 
+        /// <summary>
+        /// Metodo que guardara la modificacion realizada en la base de datos
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnGuardar_Click(object sender, EventArgs e)
         {
             try

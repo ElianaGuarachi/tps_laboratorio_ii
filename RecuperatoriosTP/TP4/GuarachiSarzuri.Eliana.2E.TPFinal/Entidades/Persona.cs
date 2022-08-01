@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 using Excepciones;
 
 namespace Entidades
 {
+    [XmlInclude(typeof(Cliente))]
+    [XmlInclude(typeof(Vendedor))]
     public abstract class Persona
     {
         private int id;
@@ -18,7 +21,11 @@ namespace Entidades
         public int Dni { get => this.dni; set => this.dni = value; }
         public string Nombre { get => this.nombre; set => this.nombre = value; }
         public string Apellido { get => this.apellido; set => this.apellido = value; }
-       
+
+        public Persona()
+        {
+
+        }
 
         public Persona(int id, string nombre, string apellido, int dni)
            : this(nombre, apellido, dni)

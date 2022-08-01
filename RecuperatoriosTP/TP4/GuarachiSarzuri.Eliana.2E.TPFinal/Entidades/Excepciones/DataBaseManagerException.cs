@@ -8,11 +8,10 @@ namespace Entidades.Excepciones
 {
     public class DataBaseManagerException: Exception
     {
-        public DataBaseManagerException():base()
-        {
-
-        }
-
+        /// <summary>
+        /// Excepcion que surge cuando hubo un error en la conexion a la base de datos
+        /// </summary>
+        /// <param name="mensaje"></param>
         public DataBaseManagerException(string mensaje) : base(mensaje)
         {
 

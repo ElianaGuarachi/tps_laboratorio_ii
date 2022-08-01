@@ -45,7 +45,7 @@ namespace Formularios
             // 
             this.lblSeleccionar.AutoSize = true;
             this.lblSeleccionar.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point);
-            this.lblSeleccionar.Location = new System.Drawing.Point(106, 153);
+            this.lblSeleccionar.Location = new System.Drawing.Point(182, 155);
             this.lblSeleccionar.Name = "lblSeleccionar";
             this.lblSeleccionar.Size = new System.Drawing.Size(339, 20);
             this.lblSeleccionar.TabIndex = 3;
@@ -55,7 +55,7 @@ namespace Formularios
             // 
             this.txtNuevoTelefono.Enabled = false;
             this.txtNuevoTelefono.Font = new System.Drawing.Font("Segoe UI Semibold", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.txtNuevoTelefono.Location = new System.Drawing.Point(238, 60);
+            this.txtNuevoTelefono.Location = new System.Drawing.Point(314, 62);
             this.txtNuevoTelefono.Name = "txtNuevoTelefono";
             this.txtNuevoTelefono.Size = new System.Drawing.Size(256, 27);
             this.txtNuevoTelefono.TabIndex = 1;
@@ -64,7 +64,7 @@ namespace Formularios
             // 
             this.txtNuevaDireccion.Enabled = false;
             this.txtNuevaDireccion.Font = new System.Drawing.Font("Segoe UI Semibold", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.txtNuevaDireccion.Location = new System.Drawing.Point(238, 108);
+            this.txtNuevaDireccion.Location = new System.Drawing.Point(314, 110);
             this.txtNuevaDireccion.Name = "txtNuevaDireccion";
             this.txtNuevaDireccion.Size = new System.Drawing.Size(256, 27);
             this.txtNuevaDireccion.TabIndex = 3;
@@ -72,7 +72,7 @@ namespace Formularios
             // btnModificar
             // 
             this.btnModificar.Font = new System.Drawing.Font("Segoe UI Semibold", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.btnModificar.Location = new System.Drawing.Point(231, 190);
+            this.btnModificar.Location = new System.Drawing.Point(307, 192);
             this.btnModificar.Name = "btnModificar";
             this.btnModificar.Size = new System.Drawing.Size(112, 51);
             this.btnModificar.TabIndex = 4;
@@ -84,7 +84,7 @@ namespace Formularios
             // 
             this.cbxTelefono.AutoSize = true;
             this.cbxTelefono.Font = new System.Drawing.Font("Segoe UI Semibold", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.cbxTelefono.Location = new System.Drawing.Point(57, 62);
+            this.cbxTelefono.Location = new System.Drawing.Point(133, 64);
             this.cbxTelefono.Name = "cbxTelefono";
             this.cbxTelefono.Size = new System.Drawing.Size(161, 24);
             this.cbxTelefono.TabIndex = 0;
@@ -96,7 +96,7 @@ namespace Formularios
             // 
             this.cbxModificarDireccion.AutoSize = true;
             this.cbxModificarDireccion.Font = new System.Drawing.Font("Segoe UI Semibold", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.cbxModificarDireccion.Location = new System.Drawing.Point(57, 108);
+            this.cbxModificarDireccion.Location = new System.Drawing.Point(133, 110);
             this.cbxModificarDireccion.Name = "cbxModificarDireccion";
             this.cbxModificarDireccion.Size = new System.Drawing.Size(167, 24);
             this.cbxModificarDireccion.TabIndex = 2;
@@ -107,7 +107,7 @@ namespace Formularios
             // btnCancelar
             // 
             this.btnCancelar.Font = new System.Drawing.Font("Segoe UI Semibold", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.btnCancelar.Location = new System.Drawing.Point(106, 190);
+            this.btnCancelar.Location = new System.Drawing.Point(182, 192);
             this.btnCancelar.Name = "btnCancelar";
             this.btnCancelar.Size = new System.Drawing.Size(112, 51);
             this.btnCancelar.TabIndex = 6;
@@ -119,7 +119,7 @@ namespace Formularios
             // 
             this.btnGuardar.Enabled = false;
             this.btnGuardar.Font = new System.Drawing.Font("Segoe UI Semibold", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.btnGuardar.Location = new System.Drawing.Point(359, 190);
+            this.btnGuardar.Location = new System.Drawing.Point(435, 192);
             this.btnGuardar.Name = "btnGuardar";
             this.btnGuardar.Size = new System.Drawing.Size(112, 51);
             this.btnGuardar.TabIndex = 5;
@@ -150,7 +150,7 @@ namespace Formularios
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(569, 256);
+            this.ClientSize = new System.Drawing.Size(686, 256);
             this.Controls.Add(this.lblCliente);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnGuardar);
@@ -166,7 +166,7 @@ namespace Formularios
             this.MinimizeBox = false;
             this.Name = "FrmModificarCliente";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Modificar datos del Cliente";
+            this.Text = "Modificar";
             this.ResumeLayout(false);
             this.PerformLayout();
 

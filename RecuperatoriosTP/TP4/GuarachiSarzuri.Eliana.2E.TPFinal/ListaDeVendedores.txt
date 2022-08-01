@@ -1,0 +1,11 @@
+Dni: 39369123 - Rodriguez, Eliana - Sueldo: 87000,25 - Fecha de alta: 2010-06-12
+Dni: 46953271 - Vera, Emanuel - Sueldo: 92000,25 - Fecha de alta: 2015-04-04
+Dni: 38195632 - Alvarez, Cesar - Sueldo: 85000,1 - Fecha de alta: 2019-03-06
+Dni: 36913342 - Castro, Cristina - Sueldo: 88000,5 - Fecha de alta: 2014-01-10
+Dni: 42210997 - Pastorutti, Daniela - Sueldo: 95000,63 - Fecha de alta: 2015-03-25
+Dni: 37221830 - Sanchez, Soledad - Sueldo: 83500,65 - Fecha de alta: 2018-06-28
+Dni: 27300252 - Gonzalez, Cristian - Sueldo: 73500,85 - Fecha de alta: 2017-06-09
+Dni: 38887125 - Dorrego, Pedro - Sueldo: 78900,75 - Fecha de alta: 2016-04-21
+Dni: 39244120 - De Ambrosi, Juan - Sueldo: 83000,15 - Fecha de alta: 2017-08-19
+Dni: 45411010 - Romero, Emiliana - Sueldo: 89300,45 - Fecha de alta: 2020-09-18
+

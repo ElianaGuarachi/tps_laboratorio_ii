@@ -9,140 +9,165 @@ using System.Threading.Tasks;
 namespace Entidades
 {
     public static class DataBaseCliente
-    {
-        private static SqlConnection connection;
+    {        
         private static string stringConnection;
+        private static SqlConnection connection;
+        private static SqlCommand comando;
 
         static DataBaseCliente()
         {
-            DataBaseCliente.stringConnection = "Server=.;Database=RecuperatorioTP4;Trusted_Connection=True;";            
+            stringConnection = "Server=.;Database=SISTEMA_DE_VENTA;Trusted_Connection=True;";
+            connection = new SqlConnection(stringConnection);
+            comando = new SqlCommand();
+            comando.Connection = connection;
+            comando.CommandType = System.Data.CommandType.Text;
         }
 
+        /// <summary>
+        /// Metodo que se encarga de obtener la lista de todos los clientes desde la base de datos
+        /// </summary>
+        /// <returns>la lista de clientes o null si no puedo cargar</returns>
+        /// /// <exception cref="DataBaseManagerException">si hubo un error en la conexion a la base de datos</exception>
         public static List<Cliente> ObtenerLista()
         {
             List<Cliente> clientes = new List<Cliente>();
             Cliente cliente = null;
-            string query = $"SELECT * FROM clientes";
             try
             {
-                using (DataBaseCliente.connection = new SqlConnection(stringConnection))
-                {
-                    connection.Open();
-                    SqlCommand command = new SqlCommand(query, connection);
-                    SqlDataReader reader = command.ExecuteReader();
+                connection.Open();
+                comando.CommandText = "SELECT * FROM clientes";
+                SqlDataReader reader = comando.ExecuteReader();
 
-                    while (reader.Read())
-                    {
-                        cliente = new Cliente(reader.GetInt32(0), reader.GetInt32(1), reader.GetString(2),
-                                        reader.GetString(3), reader.GetString(4), reader.GetString(5));
-                        clientes.Add(cliente);
-                    }
-                    return clientes;
-                }
+                while (reader.Read())
+                {
+                    cliente = new Cliente(reader.GetInt32(0), reader.GetInt32(1), reader.GetString(2),
+                                    reader.GetString(3), reader.GetString(4), reader.GetString(5));
+                    clientes.Add(cliente);
+                }                
             }
             catch (Exception)
             {
                 throw new DataBaseManagerException("No se pudo conectar con la base de datos");
             }
-        }               
+            finally
+            {
+                connection.Close();
+            }
+            return clientes;
+        }
 
+        /// <summary>
+        /// Obtiene la informacion de un cliente por el DNI
+        /// </summary>
+        /// <param name="dni">Parametro de tipo entero que representa el DNI</param>
+        /// <returns>La informacion del cliente encontrado, o null si no lo encontro o hubo un error</returns>
+        /// /// <exception cref="DataBaseManagerException">si hubo un error en la conexion a la base de datos</exception>
         public static Cliente ObtenerClientePorDni(int dni)
         {
             Cliente cliente = null;
-            string query = $"SELECT * FROM clientes WHERE dni = @dni";
             try
             {
-                using (DataBaseCliente.connection = new SqlConnection(stringConnection))
+                comando.Parameters.Clear();
+                connection.Open();
+                comando.CommandText = "SELECT* FROM clientes WHERE dni = @dni";
+                comando.Parameters.AddWithValue("@dni", dni);
+                SqlDataReader reader = comando.ExecuteReader();
+                while (reader.Read())
                 {
-                    connection.Open();
-                    SqlCommand command = new SqlCommand(query, connection);
-                    command.Parameters.AddWithValue("@dni", dni);
-                    SqlDataReader reader = command.ExecuteReader();
-
-                    while (reader.Read())
-                    {
-                        cliente = new Cliente(reader.GetInt32(0), reader.GetInt32(1), reader.GetString(2),
-                                       reader.GetString(3), reader.GetString(4), reader.GetString(5));
-                    }
-                    return cliente;
-                }
+                    cliente = new Cliente(reader.GetInt32(0), reader.GetInt32(1), reader.GetString(2),
+                                   reader.GetString(3), reader.GetString(4), reader.GetString(5));
+                }                
             }
             catch (Exception)
             {
                 throw new DataBaseManagerException("No se pudo conectar con la base de datos");
             }
-        }
-
-        public static void Alta(Cliente cliente)
-        {
-            string query = $"insert into clientes(dni, nombre, apellido, telefono, direccion) values(@dni, @nombre, @apellido, @telefono, @direccion)";
-            try
+            finally
             {
-                using (DataBaseCliente.connection = new SqlConnection(stringConnection))
-                {
-                    DataBaseCliente.connection.Open();
-                    SqlCommand command = new SqlCommand(query, connection);
-                    command.Parameters.AddWithValue("@dni", cliente.Dni);
-                    command.Parameters.AddWithValue("@nombre", cliente.Nombre);
-                    command.Parameters.AddWithValue("@apellido", cliente.Apellido);
-                    command.Parameters.AddWithValue("@telefono", cliente.Telefono);
-                    command.Parameters.AddWithValue("@direccion", cliente.Direccion);
-                    command.ExecuteNonQuery();
-                }
+                connection.Close();
             }
-            catch (Exception)
-            {
-                throw new DataBaseManagerException("No se pudo conectar con la base de datos");
-            }
+            return cliente;
         }
-
 
         /// <summary>
-        /// 
+        /// Metodo que realiza el alta de un cliente y guarda su informacion en la base de datos
         /// </summary>
-        /// <param name="cliente"></param>
-        /// <exception cref="DataBaseManagerException"></exception>
-        public static void Modificar(Cliente cliente)
+        /// <param name="cliente">Parametro de tipo Cliente</param>
+        /// /// <exception cref="DataBaseManagerException">si hubo un error en la conexion a la base de datos</exception>
+        public static void Alta(Cliente cliente)
         {
-            string query = $"update clientes set telefono=@telefono where dni=@dni;" +
-                           $"update clientes set direccion=@direccion where dni=@dni";
             try
             {
-                using (SqlConnection connection = new SqlConnection(DataBaseCliente.stringConnection))
-                {
-                    connection.Open();
-                    SqlCommand command = new SqlCommand(query, connection);
-                    command.Parameters.AddWithValue("@dni", cliente.Dni);
-                    command.Parameters.AddWithValue("@telefono", cliente.Telefono);
-                    command.Parameters.AddWithValue("@direccion", cliente.Direccion);
-                    command.ExecuteNonQuery();
-                }
+                comando.Parameters.Clear();
+                connection.Open();
+                comando.CommandText = "insert into clientes(dni, nombre, apellido, telefono, direccion) values(@dni, @nombre, @apellido, @telefono, @direccion)";
+                comando.Parameters.AddWithValue("@dni", cliente.Dni);
+                comando.Parameters.AddWithValue("@nombre", cliente.Nombre);
+                comando.Parameters.AddWithValue("@apellido", cliente.Apellido);
+                comando.Parameters.AddWithValue("@telefono", cliente.Telefono);
+                comando.Parameters.AddWithValue("@direccion", cliente.Direccion);
+                comando.ExecuteNonQuery();
             }
             catch (Exception)
             {
-                throw new DataBaseManagerException("Error en la conexion con la base de datos");
+                throw new DataBaseManagerException("No se pudo conectar con la base de datos");
             }
-        }        
-
-        public static void Eliminar(Cliente cliente)
-        {
-            string query = $"delete from clientes where dni=@dni";
-            try
+            finally
             {
-                using (SqlConnection connection = new SqlConnection(DataBaseCliente.stringConnection))
-                {
-                    connection.Open();
-                    SqlCommand command = new SqlCommand(query, connection);
-                    command.Parameters.AddWithValue("@dni", cliente.Dni);
-                    command.ExecuteNonQuery();
-                }
-            }
-            catch (Exception)
-            {
-                throw new DataBaseManagerException("Error en la conexion con la base de datos");
+                connection.Close();
             }
         }
 
+        /// <summary>
+        /// Metodo que realiza una modificacion sobre la informacion de un cliente en la base de datos
+        /// </summary>
+        /// <param name="cliente">Parametro de tipo cliente</param>
+        /// <exception cref="DataBaseManagerException">si hubo un error en la conexion a la base de datos</exception>
+        public static void Modificar(Cliente cliente)
+        {
+            try
+            {
+                comando.Parameters.Clear();
+                connection.Open();
+                comando.CommandText = "update clientes set telefono=@telefono, direccion=@direccion where dni=@dni;";
+                comando.Parameters.AddWithValue("@dni", cliente.Dni);
+                comando.Parameters.AddWithValue("@telefono", cliente.Telefono);
+                comando.Parameters.AddWithValue("@direccion", cliente.Direccion);
+                comando.ExecuteNonQuery();
+            }
+            catch (Exception)
+            {
+                throw new DataBaseManagerException("Error en la conexion con la base de datos");
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
 
+        /// <summary>
+        /// Elimina la informacion de un cliente en la base de datos
+        /// </summary>
+        /// <param name="cliente">Parametro de tipo Cliente</param>
+        /// /// <exception cref="DataBaseManagerException">si hubo un error en la conexion a la base de datos</exception>
+        public static void Eliminar(Cliente cliente)
+        {
+            try
+            {
+                comando.Parameters.Clear();
+                connection.Open();
+                comando.CommandText = "delete from clientes where dni=@dni";
+                comando.Parameters.AddWithValue("@dni", cliente.Dni);
+                comando.ExecuteNonQuery();
+            }
+            catch (Exception)
+            {
+                throw new DataBaseManagerException("Error en la conexion con la base de datos");
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
     }
 }

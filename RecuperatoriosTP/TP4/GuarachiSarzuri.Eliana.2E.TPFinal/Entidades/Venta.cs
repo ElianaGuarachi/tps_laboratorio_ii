@@ -13,27 +13,26 @@ namespace Entidades
         public event DelegadoPagoRealizado RealizarPago;
 
         private int idVenta;
-        private Vendedor vendedor;
-        private Cliente cliente;
-        private int numeroBoleta;
+        private string vendedor;
+        private string comprador;
         private List<DetalleVenta> detalleVentas;
         private double precioTotal;
-        private bool pagadoRealizado;
+        private bool pagoRealizado;
         private string fechaRegistro;
 
         public int IdVenta { get => idVenta; set => idVenta = value; }
-        public Vendedor Vendedor { get => vendedor; set => vendedor = value; }
-        public Cliente Cliente { get => cliente; set => cliente = value; }
+        public string Vendedor { get => vendedor; set => vendedor = value; }
+        public string Comprador { get => comprador; set => comprador = value; }
         public List<DetalleVenta> DetalleVentas { get => detalleVentas; set => detalleVentas = value; }
         public double PrecioTotal { get => precioTotal; set => precioTotal = value; }
         public string FechaRegistro { get => fechaRegistro; set => fechaRegistro = value; }
-        public int NumeroBoleta { get => numeroBoleta; set => numeroBoleta = value; }
 
         public bool PagoRealizado 
         {
+            get => this.pagoRealizado;
             set
             {
-                this.pagadoRealizado = value;
+                this.pagoRealizado = value;
                 if (RealizarPago is not null)
                 {
                     RealizarPago.Invoke();
@@ -44,7 +43,17 @@ namespace Entidades
         public Venta()
         {
             this.detalleVentas = new List<DetalleVenta>();
-            this.pagadoRealizado = false;
+            this.pagoRealizado = false;
+        }
+        
+        public Venta(int codigo, string vendedor, string comprador, double precio, bool pagoRealizado, string fecha)
+        {
+            this.idVenta = codigo;
+            this.vendedor = vendedor;
+            this.comprador = comprador;
+            this.precioTotal = precio;
+            this.pagoRealizado = pagoRealizado;
+            this.fechaRegistro = fecha;
         }
     }
 }

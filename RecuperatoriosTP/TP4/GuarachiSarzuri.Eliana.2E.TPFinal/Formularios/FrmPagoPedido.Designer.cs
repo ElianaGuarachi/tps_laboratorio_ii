@@ -171,6 +171,7 @@ namespace Formularios
             this.txtCodigoSeguridad.TabIndex = 18;
             this.txtCodigoSeguridad.Text = "***";
             this.txtCodigoSeguridad.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txtCodigoSeguridad.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtCodigoSeguridad_KeyPress);
             // 
             // txtVencimiento
             // 
